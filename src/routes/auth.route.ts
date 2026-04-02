@@ -70,6 +70,7 @@ router.post('/login', validate(loginSchema), authController.login);
  *       200:
  *         description: Token refreshed
  */
+router.post('/refresh', validate(refreshSchema), authController.refresh);
 /**
  * @swagger
  * /api/auth/logout:
