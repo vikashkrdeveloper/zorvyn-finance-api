@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { JwtPayload } from 'jsonwebtoken';
 import { catchAsync } from '../utils/catchAsync';
 import { AppError } from '../utils/AppError';
 import { sendResponse } from '../utils/responseWrapper';
@@ -47,10 +48,10 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
 
     const { accessToken, refreshToken } = generateTokens(user.id, user.role);
 
-    // 1. Create a new Session for this device
-    const expiresInDays = parseInt(process.env.JWT_REFRESH_EXPIRES_IN || '7d') || 7;
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + (typeof expiresInDays === 'number' ? expiresInDays : 7));
+    // 1. Create a new Session for this device, deriving expiresAt from the
+    //    token's own `exp` claim so session TTL always matches token expiry.
+    const decodedRefresh = verifyRefreshToken(refreshToken) as JwtPayload;
+    const expiresAt = new Date(decodedRefresh.exp! * 1000);
 
     await Session.create({
         userId: user.id,

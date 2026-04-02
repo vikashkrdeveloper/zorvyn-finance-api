@@ -18,10 +18,7 @@ const options: swaggerJsdoc.Options = {
                     bearerFormat: 'JWT'
                 }
             }
-        },
-        security: [{
-            bearerAuth: []
-        }]
+        }
     },
     // Files containing swagger comments
     apis: ['./src/routes/*.ts', './src/controllers/*.ts']
@@ -31,5 +28,7 @@ const swaggerSpec = swaggerJsdoc(options);
 
 export const setupSwagger = (app: Express) => {
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-    console.log('📄 Swagger Docs available at /api-docs');
+    if (process.env.NODE_ENV !== 'test') {
+        console.log('📄 Swagger Docs available at /api-docs');
+    }
 };

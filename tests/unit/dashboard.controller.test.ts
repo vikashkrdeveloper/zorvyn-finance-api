@@ -3,7 +3,13 @@ import { sendResponse } from '../../src/utils/responseWrapper';
 import { Request, Response, NextFunction } from 'express';
 
 // Mock everything before importing controllers
-jest.mock('../../src/models/record.model');
+jest.mock('../../src/models/record.model', () => ({
+    RecordType: { INCOME: 'INCOME', EXPENSE: 'EXPENSE' },
+    FinancialRecord: {
+        aggregate: jest.fn(),
+        find: jest.fn()
+    }
+}));
 jest.mock('../../src/utils/responseWrapper');
 jest.mock('../../src/utils/catchAsync', () => ({
     catchAsync: (fn: any) => fn

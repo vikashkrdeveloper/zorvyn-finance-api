@@ -6,9 +6,26 @@ import { sendResponse } from '../../src/utils/responseWrapper';
 import { Request, Response, NextFunction } from 'express';
 
 // Mock everything before importing controllers
-jest.mock('../../src/models/user.model');
-jest.mock('../../src/models/session.model');
-jest.mock('../../src/models/blacklist.model');
+jest.mock('../../src/models/user.model', () => ({
+    User: {
+        findOne: jest.fn(),
+        countDocuments: jest.fn(),
+        create: jest.fn()
+    }
+}));
+jest.mock('../../src/models/session.model', () => ({
+    Session: {
+        create: jest.fn(),
+        deleteOne: jest.fn(),
+        deleteMany: jest.fn(),
+        findOne: jest.fn()
+    }
+}));
+jest.mock('../../src/models/blacklist.model', () => ({
+    BlacklistedToken: {
+        create: jest.fn()
+    }
+}));
 jest.mock('../../src/utils/jwt');
 jest.mock('../../src/utils/responseWrapper');
 jest.mock('../../src/utils/catchAsync', () => ({
@@ -68,6 +85,10 @@ describe('Auth Controller Unit Tests', () => {
             (jwtUtils.generateTokens as jest.Mock).mockReturnValue({
                 accessToken: 'access-token',
                 refreshToken: 'refresh-token'
+            });
+            (jwtUtils.verifyRefreshToken as jest.Mock).mockReturnValue({
+                id: 'user123',
+                exp: Math.floor(Date.now() / 1000) + 604800
             });
             (Session.create as jest.Mock).mockResolvedValue({});
 
