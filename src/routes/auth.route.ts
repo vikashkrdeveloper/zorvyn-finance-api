@@ -92,7 +92,7 @@ router.post('/refresh', validate(refreshSchema), authController.refresh);
  *       200:
  *         description: Logged out from current device
  */
-router.post('/logout', validate(refreshSchema), authController.logout);
+router.post('/logout', protect, validate(refreshSchema), authController.logout);
 
 /**
  * @swagger
