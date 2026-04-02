@@ -5,10 +5,13 @@ import { User } from '../src/models/user.model';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const dbURI = process.env.MONGO_URI || 'mongodb://localhost:27017/zorvyn-test';
+const dbURI = process.env.MONGO_URI;
 
 describe('Auth API', () => {
     beforeAll(async () => {
+        if (!dbURI) {
+            throw new Error('MONGO_URI environment variable must be set to run Auth API tests');
+        }
         await mongoose.connect(dbURI);
     });
 
