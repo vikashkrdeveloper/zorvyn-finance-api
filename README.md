@@ -2,21 +2,20 @@
 
 This is the backend for the Finance Dashboard system, supporting role-based access control (RBAC), secure authentication with session management, financial record tracking, and aggregated analytics.
 
-## 🚀 Features
+**Live Backend**: [https://zorvyn-finance-api-bzb4.onrender.com](https://zorvyn-finance-api-bzb4.onrender.com)  
+**GitHub Repository**: [https://github.com/vikashkrdeveloper/zorvyn-finance-api.git](https://github.com/vikashkrdeveloper/zorvyn-finance-api.git)
 
-*   **User & Role Management**: RBAC with `Viewer`, `Analyst`, and `Admin` roles. Includes account status management (Active/Inactive) and soft deletes.
-*   **Financial Records**: Full CRUD operations with search, pagination, and advanced filtering (by type, category, and date range).
-*   **Dashboard Analytics**:
-    *   Real-time overview (Total Income, Expenses, Net Balance).
-    *   Category-wise spending breakdown.
-    *   **Trends analysis**: Monthly income vs expense tracking for the last 6 months.
-    *   Recent activity feed.
-*   **Security & Reliability**:
-    *   JWT Authentication with **Refresh Token Rotation** and session invalidation.
-    *   Robust Input Validation using **Zod**.
-    *   Global Error Handling & request rate limiting.
-    *   Production-ready logging and security headers (Helmet, Morgan).
-*   **API Documentation**: Interactive Swagger UI with dynamic environment detection.
+## ✅ Features Implemented
+
+*   **User and Role Management**: Secure registration, login, and profile management with RBAC support.
+*   **Financial Records CRUD**: Complete management of income and expense records.
+*   **Record Filtering**: Advanced filtering by **Date Range**, **Category**, and **Record Type** (Income/Expense).
+*   **Dashboard Summary APIs**: Real-time aggregated data including total balance, category breakdown, and 6-month visual trends.
+*   **Role Based Access Control**: Granular permissions for `Viewer`, `Analyst`, and `Admin` roles.
+*   **Input Validation and Error Handling**: Centralized error management and robust schema validation using **Zod**.
+*   **Data Persistence**: Reliable multi-document transactions and storage using **MongoDB**.
+
+## 🚀 Key Technical Highlights
 
 ## 🛠️ Technology Stack
 

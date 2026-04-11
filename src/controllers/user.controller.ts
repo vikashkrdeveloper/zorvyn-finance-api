@@ -73,6 +73,13 @@ export const getUser = catchAsync(async (req: Request, res: Response, next: Next
 export const updateUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, role, status } = req.body;
 
+    if (email) {
+        const existingUser = await User.findOne({ email, _id: { $ne: req.params.id as any } });
+        if (existingUser) {
+            return next(new AppError('Email already in use by another user', 400));
+        }
+    }
+
     const user = await User.findByIdAndUpdate(
         req.params.id,
         { name, email, role, status },
