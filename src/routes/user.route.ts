@@ -84,7 +84,7 @@ router.use(restrictTo(UserRole.ADMIN));
  *               email:
  *                 type: string
  *                 format: email
- *                 example: john@example.com
+ *                 example: john@zorvyn.org
  *               password:
  *                 type: string
  *                 minLength: 6

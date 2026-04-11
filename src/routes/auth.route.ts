@@ -29,7 +29,7 @@ const router = express.Router();
  *               email:
  *                 type: string
  *                 format: email
- *                 example: jane@example.com
+ *                 example: jane@zorvyn.org
  *               password:
  *                 type: string
  *                 minLength: 6
@@ -60,7 +60,7 @@ router.post('/register', validate(registerSchema), authController.register);
  *             properties:
  *               email:
  *                 type: string
- *                 example: admin@zorvyn.com
+ *                 example: admin@zorvyn.org
  *               password:
  *                 type: string
  *                 example: password123
@@ -135,6 +135,5 @@ router.post('/logout', protect, validate(refreshSchema), authController.logout);
  *         description: Logged out from all devices successfully
  */
 router.post('/logout-all', protect, authController.logoutAll);
-
 
 export default router;
