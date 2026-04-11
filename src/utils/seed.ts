@@ -8,21 +8,21 @@ dotenv.config();
 const users = [
     {
         name: 'Admin User',
-        email: 'admin@zorvyn.com',
+        email: 'admin@zorvyn.org',
         password: 'password123',
         role: UserRole.ADMIN,
         status: UserStatus.ACTIVE
     },
     {
         name: 'Analyst User',
-        email: 'analyst@zorvyn.com',
+        email: 'analyst@zorvyn.org',
         password: 'password123',
         role: UserRole.ANALYST,
         status: UserStatus.ACTIVE
     },
     {
         name: 'Viewer User',
-        email: 'viewer@zorvyn.com',
+        email: 'viewer@zorvyn.org',
         password: 'password123',
         role: UserRole.VIEWER,
         status: UserStatus.ACTIVE

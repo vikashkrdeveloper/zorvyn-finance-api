@@ -52,9 +52,9 @@ To quickly populate the database with mock users and transaction data for evalua
 ```bash
 npm run seed
 ```
-*   **Admin**: admin@zorvyn.com / password123
-*   **Analyst**: analyst@zorvyn.com / password123
-*   **Viewer**: viewer@zorvyn.com / password123
+*   **Admin**: admin@zorvyn.org / password123
+*   **Analyst**: analyst@zorvyn.org / password123
+*   **Viewer**: viewer@zorvyn.org / password123
 
 ### Running the Application
 *   **Development**: npm run dev (with hot-reload)
