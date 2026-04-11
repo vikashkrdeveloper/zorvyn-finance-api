@@ -46,7 +46,7 @@ const recordSchema = new Schema<IFinancialRecord>(
         isDeleted: {
             type: Boolean,
             default: false,
-            select: false // hides it from client side
+            select: false
         }
     },
     {
@@ -56,7 +56,6 @@ const recordSchema = new Schema<IFinancialRecord>(
     }
 );
 
-// Optional: Filter out deleted records universally
 recordSchema.pre(/^find/, function (this: any) {
     this.find({ isDeleted: { $ne: true } });
 });

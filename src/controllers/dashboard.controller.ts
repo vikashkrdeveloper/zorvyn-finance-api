@@ -11,9 +11,7 @@ export const getDashboardSummary = catchAsync(async (req: Request, res: Response
     // 4. Category-wise totals
     // 5. Recent Activity (last 5 records)
 
-    // Parallel execution for better performance
-    const [totals, categoryTotals, recentActivity] = await Promise.all([
-        // 1. Calculate general totals (Income vs Expenses)
+    const [totals, categoryTotals, recentActivity, monthlyTrends] = await Promise.all([
         FinancialRecord.aggregate([
             { $match: { isDeleted: false } },
             {
@@ -24,7 +22,6 @@ export const getDashboardSummary = catchAsync(async (req: Request, res: Response
             }
         ]),
 
-        // 2. Calculate category-wise totals
         FinancialRecord.aggregate([
             { $match: { isDeleted: false } },
             {
@@ -33,18 +30,36 @@ export const getDashboardSummary = catchAsync(async (req: Request, res: Response
                     totalAmount: { $sum: '$amount' }
                 }
             },
-            { $sort: { totalAmount: -1 } } // Highest spending/earning categories first
+            { $sort: { totalAmount: -1 } }
         ]),
 
-        // 3. Get recent activity
         FinancialRecord.find({ isDeleted: false })
             .select('amount type category date notes createdBy')
             .sort('-createdAt')
             .limit(5)
-            .populate('createdBy', 'name email')
+            .populate('createdBy', 'name email'),
+
+        FinancialRecord.aggregate([
+            {
+                $match: {
+                    isDeleted: false,
+                    date: { $gte: new Date(new Date().setMonth(new Date().getMonth() - 6)) }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        month: { $month: '$date' },
+                        year: { $year: '$date' },
+                        type: '$type'
+                    },
+                    total: { $sum: '$amount' }
+                }
+            },
+            { $sort: { '_id.year': 1, '_id.month': 1 } }
+        ])
     ]);
 
-    // Format Totals and Net Balance
     let totalIncome = 0;
     let totalExpenses = 0;
 
@@ -55,11 +70,25 @@ export const getDashboardSummary = catchAsync(async (req: Request, res: Response
 
     const netBalance = totalIncome - totalExpenses;
 
-    // Format Category Totals
     const formattedCategoryTotals = categoryTotals.map(c => ({
         type: c._id.type,
         category: c._id.category,
         amount: c.totalAmount
+    }));
+
+    const trends: any = {};
+    monthlyTrends.forEach(item => {
+        const key = `${item._id.year}-${String(item._id.month).padStart(2, '0')}`;
+        if (!trends[key]) trends[key] = { income: 0, expense: 0 };
+        
+        if (item._id.type === RecordType.INCOME) trends[key].income = item.total;
+        if (item._id.type === RecordType.EXPENSE) trends[key].expense = item.total;
+    });
+
+    const formattedTrends = Object.keys(trends).map(key => ({
+        month: key,
+        income: trends[key].income,
+        expense: trends[key].expense
     }));
 
     sendResponse(res, 200, 'Dashboard summary retrieved successfully', {
@@ -69,6 +98,7 @@ export const getDashboardSummary = catchAsync(async (req: Request, res: Response
             netBalance
         },
         categoryBreakdown: formattedCategoryTotals,
-        recentActivity
+        recentActivity,
+        trends: formattedTrends
     });
 });

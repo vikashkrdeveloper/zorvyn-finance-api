@@ -1,48 +1,83 @@
 # Zorvyn Finance Data API
 
-This is the backend for the Finance Dashboard system, supporting role-based access control, secure authentication via tokens, user and record management, aggregated analytics, and more.
+This is the backend for the Finance Dashboard system, supporting role-based access control (RBAC), secure authentication with session management, financial record tracking, and aggregated analytics.
 
-## Objective
-To demonstrate scalable, robust, and clean backend architecture adhering to the assigned business rules.
+## 🚀 Features
 
-### Key Technology Stack
-* Node.js + Express (TypeScript)
-* Database: MongoDB + Mongoose (chosen for agile data schemas and complex aggregations)
-* Validation: Zod (for runtime schema validation)
-* Auth: JWT Access and Refresh Tokens
-* Docs: Swagger UI
-* Testing: Jest & Supertest
+*   **User & Role Management**: RBAC with `Viewer`, `Analyst`, and `Admin` roles. Includes account status management (Active/Inactive) and soft deletes.
+*   **Financial Records**: Full CRUD operations with search, pagination, and advanced filtering (by type, category, and date range).
+*   **Dashboard Analytics**:
+    *   Real-time overview (Total Income, Expenses, Net Balance).
+    *   Category-wise spending breakdown.
+    *   **Trends analysis**: Monthly income vs expense tracking for the last 6 months.
+    *   Recent activity feed.
+*   **Security & Reliability**:
+    *   JWT Authentication with **Refresh Token Rotation** and session invalidation.
+    *   Robust Input Validation using **Zod**.
+    *   Global Error Handling & request rate limiting.
+    *   Production-ready logging and security headers (Helmet, Morgan).
+*   **API Documentation**: Interactive Swagger UI with dynamic environment detection.
 
-## Features Built
-1. **User and Role Management**: Viewer, Analyst, and Admin roles implemented securely. 
-2. **Financial Records Management**: Fully functional CRUD with search and advanced filtering (soft-delete implemented).
-3. **Dashboard APIs**: Using MongoDB aggregation pipelines, created endpoints to compute expenses, incomes, net-balance, category totals.
-4. **Access Control**: Robust Middlewares (`protect` & `restrictTo`) strictly enforcing role bounds. By default, the first user to register receives the `ADMIN` role.
-5. **Errors & Reliability**: Custom Error Handling App-level class. Safe CatchAsync wrappers for all controllers avoiding unhandled promise rejections. Rate limiting built in by default using `express-rate-limit`. Global exception handling in `server.ts`.
+## 🛠️ Technology Stack
 
-## Local Setup
+*   **Runtime**: Node.js (TypeScript)
+*   **Framework**: Express.js
+*   **Database**: MongoDB + Mongoose
+*   **Validation**: Zod
+*   **Documentation**: Swagger (OpenAPI 3.0)
+*   **Testing**: Jest + Supertest
 
-### Pre-requisites
-1. Node.js v18+
-2. MongoDB running locally on port `27017` or a valid remote Mongo URI cluster.
+## 📦 Getting Started
 
-### Execution
-1. Install dependencies:
+### Prerequisites
+*   Node.js v18+
+*   MongoDB (Local or Atlas)
+
+### Installation
+1.  Clone the repository and install dependencies:
+    ```bash
+    npm install
+    ```
+2.  Setup environment variables (Template provided in `.env.example`):
+    ```bash
+    cp .env.example .env
+    ```
+
+### Database Seeding (Optional)
+To quickly populate the database with mock users and transaction data for evaluation:
 ```bash
-npm install
+npm run seed
 ```
-2. Build & Watch in Development:
+*   **Admin**: `admin@zorvyn.com` / `password123`
+*   **Analyst**: `analyst@zorvyn.com` / `password123`
+*   **Viewer**: `viewer@zorvyn.com` / `password123`
+
+### Running the Application
+*   **Development**: `npm run dev` (with hot-reload)
+*   **Production**: `npm run build && npm start`
+
+## 📖 API Documentation
+
+The project includes an interactive documentation portal powered by Swagger.
+
+*   **Local**: [http://localhost:8080/api-docs](http://localhost:8080/api-docs)
+*   **Production**: Automatically switches base URL based on `APP_URL` in `.env`.
+
+## 🧪 Testing
+Run the automated test suite to verify authentication and core logic:
 ```bash
-npm run dev
+npm test
 ```
 
-The API will run on `http://localhost:8080/`.
-
-### API Documentation (Swagger)
-While running the application, visit `http://localhost:8080/api-docs` to access the interactive Swagger interface.
-
-### Running Tests
-Automated JWT & Authentication flow integration tests are provided. To execute:
-```bash
-npm run test
+## 📂 Project Structure
+```text
+src/
+├── config/       # Database and app configurations
+├── controllers/  # Business logic & request handling
+├── middlewares/  # Auth, Validation, and Error guards
+├── models/       # Mongoose data schemas
+├── routes/       # API route definitions
+├── services/     # (Optional) Reusable logic
+├── utils/        # Generic helpers (JWT, Swagger, Seed)
+└── validation/   # Zod schema definitions
 ```

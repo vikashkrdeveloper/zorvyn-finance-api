@@ -67,7 +67,7 @@ describe('User Controller Unit Tests', () => {
             await deleteUser(mockRequest as Request, mockResponse as Response, nextFunction);
 
             expect(User.findByIdAndUpdate).toHaveBeenCalledWith('user123', { isDeleted: true }, { new: true });
-            expect(sendResponse).toHaveBeenCalledWith(mockResponse, 200, 'User successfully deleted (soft delete)');
+            expect(sendResponse).toHaveBeenCalledWith(mockResponse, 200, 'User successfully deleted');
         });
     });
 });
