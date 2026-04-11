@@ -2,7 +2,7 @@
 
 This is the backend for the Finance Dashboard system, supporting role-based access control (RBAC), secure authentication with session management, financial record tracking, and aggregated analytics.
 
-**Live Backend**: [https://zorvyn-finance-api-bzb4.onrender.com](https://zorvyn-finance-api-bzb4.onrender.com)  
+**Live Backend**: [https://zorvyn-finance-backend-y2ab.onrender.com/](https://zorvyn-finance-backend-y2ab.onrender.com/)  
 **GitHub Repository**: [https://github.com/vikashkrdeveloper/zorvyn-finance-api.git](https://github.com/vikashkrdeveloper/zorvyn-finance-api.git)
 
 ## Features Implemented
@@ -73,7 +73,15 @@ Run the automated test suite to verify authentication and core logic:
 npm test
 ```
 
-## Project Structure
+### Roles & Permissions
+
+| Role | Permissions |
+| :--- | :--- |
+| **Viewer** | Can only view dashboard data and summaries. |
+| **Analyst** | Can view all financial records and access dashboard insights. |
+| **Admin** | Full access: Manage users, create/update/delete financial records. |
+
+### Project Structure
 ```text
 src/
 ├── config/       # Database and app configurations

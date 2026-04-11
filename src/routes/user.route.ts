@@ -17,11 +17,50 @@ const router = express.Router();
 router.use(protect);
 router.use(restrictTo(UserRole.ADMIN));
 
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: List all users (Requires Role: Admin)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of users
+ *   post:
+ *     summary: Create new user (Requires Role: Admin)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       201:
+ *         description: User created
+ */
 router
     .route('/')
     .get(validate(listUsersSchema), userController.getUsers)
     .post(validate(createUserSchema), userController.createUser);
 
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   get:
+ *     summary: Get user details (Requires Role: Admin)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *   put:
+ *     summary: Update user (Requires Role: Admin)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *   delete:
+ *     summary: Soft delete user (Requires Role: Admin)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ */
 router
     .route('/:id')
     .get(validate(getUserSchema), userController.getUser)
