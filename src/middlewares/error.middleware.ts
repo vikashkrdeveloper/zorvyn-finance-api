@@ -41,7 +41,7 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
             stack: err.stack,
             details: details || err
         });
-    } else {
+    } else if (env !== 'test') {
         console.error(`[Error] ${statusCode} - ${message}`);
     }
 
