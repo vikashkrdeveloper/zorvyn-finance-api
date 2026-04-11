@@ -3,10 +3,9 @@ dotenv.config();
 
 import { app } from './app';
 import { connectDB } from './config/database';
-import { setupSwagger } from './utils/swagger';
 
 process.on('uncaughtException', (err) => {
-    console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+    console.log('UNCAUGHT EXCEPTION! Shutting down...');
     console.log(err.name, err.message);
     process.exit(1);
 });
@@ -20,7 +19,7 @@ const startServer = async () => {
     });
 
     process.on('unhandledRejection', (err: Error) => {
-        console.log('UNHANDLED REJECTION! 💥 Shutting down...');
+        console.log('UNHANDLED REJECTION! Shutting down...');
         console.log(err.name, err.message);
         server.close(() => {
             process.exit(1);

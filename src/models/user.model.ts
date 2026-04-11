@@ -40,7 +40,7 @@ const userSchema = new Schema<IUser>(
             type: String,
             required: [true, 'Please provide a password'],
             minlength: 6,
-            select: false // Never send password in standard queries
+            select: false
         },
         role: {
             type: String,
@@ -55,7 +55,7 @@ const userSchema = new Schema<IUser>(
         isDeleted: {
             type: Boolean,
             default: false,
-            select: false // hides it from client side
+            select: false
         }
     },
     {
@@ -65,20 +65,15 @@ const userSchema = new Schema<IUser>(
     }
 );
 
-// Hash password before saving
 userSchema.pre('save', async function () {
     if (!this.isModified('password')) return;
-    
-    // Hash password with cost of 12
     this.password = await bcrypt.hash(this.password as string, 12);
 });
 
-// Compare password method
 userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Filter out deleted users universally
 userSchema.pre(/^find/, function (this: any) {
     this.find({ isDeleted: { $ne: true } });
 });

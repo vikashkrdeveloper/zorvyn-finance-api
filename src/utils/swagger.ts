@@ -18,9 +18,17 @@ const options: swaggerJsdoc.Options = {
                     bearerFormat: 'JWT'
                 }
             }
-        }
+        },
+        servers: [
+            {
+                url: process.env.APP_URL || `http://localhost:${process.env.PORT || 8080}`,
+                description: process.env.NODE_ENV === 'production' ? 'Production Server' : 'Local Server'
+            }
+        ],
+        security: [{
+            bearerAuth: []
+        }]
     },
-    // Files containing swagger comments
     apis: ['./src/routes/*.ts', './src/controllers/*.ts']
 };
 
@@ -29,6 +37,6 @@ const swaggerSpec = swaggerJsdoc(options);
 export const setupSwagger = (app: Express) => {
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     if (process.env.NODE_ENV !== 'test') {
-        console.log('📄 Swagger Docs available at /api-docs');
+        console.log('Swagger Docs available at /api-docs');
     }
 };

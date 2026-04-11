@@ -48,7 +48,8 @@ describe('Dashboard Controller Unit Tests', () => {
 
             (FinancialRecord.aggregate as jest.Mock)
                 .mockResolvedValueOnce(mockTotals)
-                .mockResolvedValueOnce(mockCategoryTotals);
+                .mockResolvedValueOnce(mockCategoryTotals)
+                .mockResolvedValueOnce([]); // Mock for monthly trends
             
             (FinancialRecord.find as jest.Mock).mockReturnValue({
                 select: jest.fn().mockReturnThis(),

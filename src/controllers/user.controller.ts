@@ -12,7 +12,6 @@ export const getUsers = catchAsync(async (req: Request, res: Response, next: Nex
 
     const query: any = {};
 
-    // Search by name or email
     if (req.query.search) {
         query.$or = [
             { name: { $regex: req.query.search, $options: 'i' } },
@@ -20,7 +19,6 @@ export const getUsers = catchAsync(async (req: Request, res: Response, next: Nex
         ];
     }
 
-    // Filter by role or status
     if (req.query.role) query.role = req.query.role;
     if (req.query.status) query.status = req.query.status;
 
@@ -28,7 +26,7 @@ export const getUsers = catchAsync(async (req: Request, res: Response, next: Nex
         .select('name email role status createdAt')
         .skip(skip)
         .limit(limit)
-        .sort('-createdAt'); // Newest first
+        .sort('-createdAt');
 
     const total = await User.countDocuments(query);
 
@@ -40,7 +38,6 @@ export const getUsers = catchAsync(async (req: Request, res: Response, next: Nex
     });
 });
 
-// @route   POST /api/users
 export const createUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password, role, status } = req.body;
 
@@ -57,12 +54,11 @@ export const createUser = catchAsync(async (req: Request, res: Response, next: N
         status
     });
 
-    user.password = undefined; // Hide password in response
+    user.password = undefined;
 
     sendResponse(res, 201, 'User created successfully', user);
 });
 
-// @route   GET /api/users/:id
 export const getUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findById(req.params.id)
         .select('name email role status createdAt');
@@ -74,12 +70,8 @@ export const getUser = catchAsync(async (req: Request, res: Response, next: Next
     sendResponse(res, 200, 'User retrieved successfully', user);
 });
 
-// @route   PUT /api/users/:id
 export const updateUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, role, status } = req.body;
-
-    // Optional: add a check so admin doesn't lock themselves out or demote themselves easily, 
-    // but standard update works for now.
 
     const user = await User.findByIdAndUpdate(
         req.params.id,
@@ -94,8 +86,6 @@ export const updateUser = catchAsync(async (req: Request, res: Response, next: N
     sendResponse(res, 200, 'User updated successfully', user);
 });
 
-// @route   DELETE /api/users/:id
-// Soft delete implementation
 export const deleteUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findByIdAndUpdate(req.params.id, { isDeleted: true }, { new: true });
 
@@ -103,5 +93,5 @@ export const deleteUser = catchAsync(async (req: Request, res: Response, next: N
         return next(new AppError('No user found with that ID', 404));
     }
 
-    sendResponse(res, 200, 'User successfully deleted (soft delete)');
+    sendResponse(res, 200, 'User successfully deleted');
 });

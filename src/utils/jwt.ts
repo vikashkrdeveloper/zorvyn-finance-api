@@ -1,5 +1,13 @@
 import jwt from 'jsonwebtoken';
 
+export const corsOrigin =()=>{
+    if(process.env.CORS_ORIGIN === "*"){
+        return "*"
+    }
+    const allowedOrigins = process.env.CORS_ORIGIN?.split(',') || [];
+    return allowedOrigins;
+}
+
 export const generateTokens = (userId: string, role: string) => {
     const accessToken = jwt.sign(
         { id: userId, role },
