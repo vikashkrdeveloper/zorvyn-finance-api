@@ -20,7 +20,7 @@ router.use(protect);
  * @swagger
  * /api/records:
  *   get:
- *     summary: List all financial records (Requires Role: Admin, Analyst)
+ *     summary: "List all financial records (Requires Role: Admin, Analyst)"
  *     tags: [Records]
  *     parameters:
  *       - in: query
@@ -45,7 +45,7 @@ router
  * @swagger
  * /api/records:
  *   post:
- *     summary: Create a financial record (Requires Role: Admin)
+ *     summary: "Create a financial record (Requires Role: Admin)"
  *     tags: [Records]
  *     requestBody:
  *       required: true
@@ -74,7 +74,7 @@ router
  * @swagger
  * /api/records/{id}:
  *   get:
- *     summary: Get a standard record by ID (Requires Role: Admin, Analyst)
+ *     summary: "Get a standard record by ID (Requires Role: Admin, Analyst)"
  *     tags: [Records]
  *     parameters:
  *       - in: path
@@ -85,7 +85,7 @@ router
  *       200:
  *         description: Record data
  *   put:
- *     summary: Update a record (Requires Role: Admin)
+ *     summary: "Update a record (Requires Role: Admin)"
  *     tags: [Records]
  *     parameters:
  *       - in: path
@@ -96,7 +96,7 @@ router
  *       200:
  *         description: Record updated
  *   delete:
- *     summary: Soft delete a record (Requires Role: Admin)
+ *     summary: "Soft delete a record (Requires Role: Admin)"
  *     tags: [Records]
  *     parameters:
  *       - in: path

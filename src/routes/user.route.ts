@@ -21,7 +21,7 @@ router.use(restrictTo(UserRole.ADMIN));
  * @swagger
  * /api/users:
  *   get:
- *     summary: List all users (Requires Role: Admin)
+ *     summary: "List all users (Requires Role: Admin)"
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -29,7 +29,7 @@ router.use(restrictTo(UserRole.ADMIN));
  *       200:
  *         description: List of users
  *   post:
- *     summary: Create new user (Requires Role: Admin)
+ *     summary: "Create new user (Requires Role: Admin)"
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -46,17 +46,17 @@ router
  * @swagger
  * /api/users/{id}:
  *   get:
- *     summary: Get user details (Requires Role: Admin)
+ *     summary: "Get user details (Requires Role: Admin)"
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
  *   put:
- *     summary: Update user (Requires Role: Admin)
+ *     summary: "Update user (Requires Role: Admin)"
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
  *   delete:
- *     summary: Soft delete user (Requires Role: Admin)
+ *     summary: "Soft delete user (Requires Role: Admin)"
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
