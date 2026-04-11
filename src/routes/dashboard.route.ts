@@ -14,10 +14,39 @@ router.use(protect);
  *   get:
  *     summary: "Get financial performance summary (Requires Role: Admin, Analyst, Viewer)"
  *     tags: [Dashboard]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Dashboard statistics
+ *         description: Financial summary retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     totalIncome:
+ *                       type: number
+ *                     totalExpenses:
+ *                       type: number
+ *                     netBalance:
+ *                       type: number
+ *                     transactionCount:
+ *                       type: number
+ *                     recentTransactions:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Record'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - Insufficient permissions
  */
-router.get('/summary', restrictTo(UserRole.ADMIN, UserRole.ANALYST, UserRole.VIEWER), dashboardController.getDashboardSummary);
+router.get('/summary', 
+restrictTo(UserRole.ADMIN, UserRole.ANALYST, UserRole.VIEWER), dashboardController.getDashboardSummary);
 
 export default router;
