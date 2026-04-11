@@ -12,7 +12,7 @@ router.use(protect);
  * @swagger
  * /api/dashboard/summary:
  *   get:
- *     summary: Get financial performance summary (Requires Role: Admin, Analyst, Viewer)
+ *     summary: "Get financial performance summary (Requires Role: Admin, Analyst, Viewer)"
  *     tags: [Dashboard]
  *     responses:
  *       200:

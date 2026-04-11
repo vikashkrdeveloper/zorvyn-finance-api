@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "7dc4faae-9e8c-4467-9c91-9e8e5e8e5e8e",
 		"name": "Zorvyn Finance API (Full Sync)",
-		"description": "Exhaustive API Collection for Zorvyn Finance app, fully synchronized with Swagger documentation.",
+		"description": "Exhaustive API Collection for Zorvyn Finance app, fully synchronized with Swagger documentation and all features.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -13,41 +13,90 @@
 					"name": "Register User",
 					"request": {
 						"method": "POST",
-						"body": { "mode": "raw", "raw": "{\n    \"name\": \"Admin User\",\n    \"email\": \"admin@zorvyn.com\",\n    \"password\": \"password123\"\n}", "options": { "raw": { "language": "json" } } },
-						"url": "{{baseUrl}}/api/auth/register"
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Admin User\",\n    \"email\": \"admin@zorvyn.com\",\n    \"password\": \"password123\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/auth/register", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "register" ] }
 					}
 				},
 				{
 					"name": "Login User",
-					"event": [ { "listen": "test", "script": { "exec": [ "const res = pm.response.json();", "if(res.success && res.data) {", "  pm.environment.set('accessToken', res.data.accessToken);", "  pm.environment.set('refreshToken', res.data.refreshToken);", "}" ], "type": "text/javascript" } } ],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.success && response.data) {",
+									"    if (response.data.accessToken) pm.environment.set(\"accessToken\", response.data.accessToken);",
+									"    if (response.data.refreshToken) pm.environment.set(\"refreshToken\", response.data.refreshToken);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
-						"body": { "mode": "raw", "raw": "{\n    \"email\": \"admin@zorvyn.com\",\n    \"password\": \"password123\"\n}", "options": { "raw": { "language": "json" } } },
-						"url": "{{baseUrl}}/api/auth/login"
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@zorvyn.com\",\n    \"password\": \"password123\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/auth/login", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "login" ] }
 					}
 				},
 				{
 					"name": "Refresh Token",
-					"event": [ { "listen": "test", "script": { "exec": [ "const res = pm.response.json();", "if(res.success && res.data) {", "  pm.environment.set('accessToken', res.data.accessToken);", "  pm.environment.set('refreshToken', res.data.refreshToken);", "}" ], "type": "text/javascript" } } ],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"if (response.success && response.data) {",
+									"    pm.environment.set(\"accessToken\", response.data.accessToken);",
+									"    pm.environment.set(\"refreshToken\", response.data.refreshToken);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
-						"body": { "mode": "raw", "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}", "options": { "raw": { "language": "json" } } },
-						"url": "{{baseUrl}}/api/auth/refresh"
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/auth/refresh", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "refresh" ] }
 					}
 				},
 				{
-					"name": "Logout",
+					"name": "Logout (Current Session)",
 					"request": {
 						"method": "POST",
-						"body": { "mode": "raw", "raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}", "options": { "raw": { "language": "json" } } },
-						"url": "{{baseUrl}}/api/auth/logout"
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/auth/logout", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "logout" ] }
 					}
 				},
 				{
 					"name": "Logout All Devices",
 					"request": {
 						"method": "POST",
-						"url": "{{baseUrl}}/api/auth/logout-all"
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/api/auth/logout-all", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "logout-all" ] }
 					}
 				}
 			]
@@ -55,36 +104,176 @@
 		{
 			"name": "2. User Management (Admin)",
 			"item": [
-				{ "name": "Get All Users", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/users?page=1&limit=10&search=&role=&status=", "query": [ { "key": "page", "value": "1" }, { "key": "limit", "value": "10" }, { "key": "search", "value": "" }, { "key": "role", "value": "" }, { "key": "status", "value": "" } ] } } },
-				{ "name": "Create User", "request": { "method": "POST", "body": { "mode": "raw", "raw": "{\n    \"name\": \"New User\",\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"VIEWER\"\n}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/api/users" } },
-				{ "name": "Get User By ID", "request": { "method": "GET", "url": "{{baseUrl}}/api/users/{{activeUserId}}" } },
-				{ "name": "Update User", "request": { "method": "PUT", "body": { "mode": "raw", "raw": "{\n    \"role\": \"ANALYST\",\n    \"status\": \"ACTIVE\"\n}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/api/users/{{activeUserId}}" } },
-				{ "name": "Delete User (Soft)", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/users/{{activeUserId}}" } }
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users?page=1&limit=10&search=&role=&status=",
+							"host": [ "{{baseUrl}}" ],
+							"path": [ "api", "users" ],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "10" },
+								{ "key": "search", "value": "", "description": "Search by name or email" },
+								{ "key": "role", "value": "", "description": "Filter by role (ADMIN, ANALYST, VIEWER)" },
+								{ "key": "status", "value": "", "description": "Filter by status (ACTIVE, INACTIVE)" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Test Analyst\",\n    \"email\": \"test.analyst@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"ANALYST\",\n    \"status\": \"ACTIVE\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/users", "host": [ "{{baseUrl}}" ], "path": [ "api", "users" ] }
+					}
+				},
+				{
+					"name": "Get User By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/api/users/{{activeUserId}}", "host": [ "{{baseUrl}}" ], "path": [ "api", "users", "{{activeUserId}}" ] }
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Name\",\n    \"role\": \"ADMIN\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/users/{{activeUserId}}", "host": [ "{{baseUrl}}" ], "path": [ "api", "users", "{{activeUserId}}" ] }
+					}
+				},
+				{
+					"name": "Delete User (Soft Delete)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/api/users/{{activeUserId}}", "host": [ "{{baseUrl}}" ], "path": [ "api", "users", "{{activeUserId}}" ] }
+					}
+				}
 			]
 		},
 		{
 			"name": "3. Financial Records",
 			"item": [
-				{ "name": "List Records (Filtered)", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/records?page=1&limit=10&search=&type=&category=&startDate=&endDate=", "query": [ { "key": "page", "value": "1" }, { "key": "limit", "value": "10" }, { "key": "search", "value": "" }, { "key": "type", "value": "INCOME" }, { "key": "category", "value": "" }, { "key": "startDate", "value": "" }, { "key": "endDate", "value": "" } ] } } },
-				{ "name": "Create Record (Admin Only)", "request": { "method": "POST", "body": { "mode": "raw", "raw": "{\n    \"amount\": 5000,\n    \"type\": \"INCOME\",\n    \"category\": \"Salary\",\n    \"date\": \"2024-03-20\",\n    \"notes\": \"March paycheck\"\n}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/api/records" } },
-				{ "name": "Get Record By ID", "request": { "method": "GET", "url": "{{baseUrl}}/api/records/{{activeRecordId}}" } },
-				{ "name": "Update Record (Admin Only)", "request": { "method": "PUT", "body": { "mode": "raw", "raw": "{\n    \"amount\": 5500\n}", "options": { "raw": { "language": "json" } } }, "url": "{{baseUrl}}/api/records/{{activeRecordId}}" } },
-				{ "name": "Delete Record (Admin Only)", "request": { "method": "DELETE", "url": "{{baseUrl}}/api/records/{{activeRecordId}}" } }
+				{
+					"name": "List Records (Filters & Search)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/records?page=1&limit=10&search=&type=&category=&startDate=&endDate=",
+							"host": [ "{{baseUrl}}" ],
+							"path": [ "api", "records" ],
+							"query": [
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "10" },
+								{ "key": "search", "value": "", "description": "Search in notes or category" },
+								{ "key": "type", "value": "", "description": "INCOME or EXPENSE" },
+								{ "key": "category", "value": "" },
+								{ "key": "startDate", "value": "2024-01-01", "description": "YYYY-MM-DD" },
+								{ "key": "endDate", "value": "2024-12-31", "description": "YYYY-MM-DD" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Record (Admin Only)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 150.50,\n    \"type\": \"EXPENSE\",\n    \"category\": \"Software\",\n    \"date\": \"2024-04-10\",\n    \"notes\": \"Postman subscription\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/records", "host": [ "{{baseUrl}}" ], "path": [ "api", "records" ] }
+					}
+				},
+				{
+					"name": "Get Record By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/api/records/{{activeRecordId}}", "host": [ "{{baseUrl}}" ], "path": [ "api", "records", "{{activeRecordId}}" ] }
+					}
+				},
+				{
+					"name": "Update Record (Admin Only)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 200.00,\n    \"notes\": \"Updated amount after discount\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/records/{{activeRecordId}}", "host": [ "{{baseUrl}}" ], "path": [ "api", "records", "{{activeRecordId}}" ] }
+					}
+				},
+				{
+					"name": "Delete Record (Admin Only)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/api/records/{{activeRecordId}}", "host": [ "{{baseUrl}}" ], "path": [ "api", "records", "{{activeRecordId}}" ] }
+					}
+				}
 			]
 		},
 		{
-			"name": "4. Dashboard",
+			"name": "4. Dashboard (All Roles)",
 			"item": [
-				{ "name": "Get Dashboard Summary", "request": { "method": "GET", "url": "{{baseUrl}}/api/dashboard/summary" } }
+				{
+					"name": "Dashboard Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/api/dashboard/summary", "host": [ "{{baseUrl}}" ], "path": [ "api", "dashboard", "summary" ] }
+					}
+				}
 			]
 		}
 	],
-	"auth": { "type": "bearer", "bearer": [ { "key": "token", "value": "{{accessToken}}", "type": "string" } ] },
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": { "type": "text/javascript", "exec": [ "" ] }
+		},
+		{
+			"listen": "test",
+			"script": { "type": "text/javascript", "exec": [ "" ] }
+		}
+	],
 	"variable": [
-		{ "key": "baseUrl", "value": "https://zorvyn-finance-backend-y2ab.onrender.com", "description": "Production or http://localhost:8080" },
-		{ "key": "accessToken", "value": "" },
-		{ "key": "refreshToken", "value": "" },
-		{ "key": "activeUserId", "value": "" },
-		{ "key": "activeRecordId", "value": "" }
+		{ "key": "baseUrl", "value": "https://zorvyn-finance-backend-y2ab.onrender.com", "type": "string" },
+		{ "key": "accessToken", "value": "", "type": "string" },
+		{ "key": "refreshToken", "value": "", "type": "string" },
+		{ "key": "activeUserId", "value": "", "type": "string" },
+		{ "key": "activeRecordId", "value": "", "type": "string" }
 	]
 }
