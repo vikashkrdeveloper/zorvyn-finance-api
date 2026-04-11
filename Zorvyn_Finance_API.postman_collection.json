@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Admin User\",\n    \"email\": \"admin@zorvyn.com\",\n    \"password\": \"password123\"\n}",
+							"raw": "{\n    \"name\": \"Admin User\",\n    \"email\": \"admin@zorvyn.org\",\n    \"password\": \"password123\"\n}",
 							"options": { "raw": { "language": "json" } }
 						},
 						"url": { "raw": "{{baseUrl}}/api/auth/register", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "register" ] }
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"admin@zorvyn.com\",\n    \"password\": \"password123\"\n}",
+							"raw": "{\n    \"email\": \"admin@zorvyn.org\",\n    \"password\": \"password123\"\n}",
 							"options": { "raw": { "language": "json" } }
 						},
 						"url": { "raw": "{{baseUrl}}/api/auth/login", "host": [ "{{baseUrl}}" ], "path": [ "api", "auth", "login" ] }
@@ -130,7 +130,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Test Analyst\",\n    \"email\": \"test.analyst@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"ANALYST\",\n    \"status\": \"ACTIVE\"\n}",
+							"raw": "{\n    \"name\": \"Test Analyst\",\n    \"email\": \"test.analyst@zorvyn.org\",\n    \"password\": \"password123\",\n    \"role\": \"ANALYST\",\n    \"status\": \"ACTIVE\"\n}",
 							"options": { "raw": { "language": "json" } }
 						},
 						"url": { "raw": "{{baseUrl}}/api/users", "host": [ "{{baseUrl}}" ], "path": [ "api", "users" ] }
